@@ -30,6 +30,7 @@ const isDev = process.env.NODE_ENV !== 'production';
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
+  'https://promotional-hub.vercel.app',
   'http://localhost:5173',
   'http://localhost:5174',
   'http://localhost:5175',
@@ -56,6 +57,14 @@ app.use(
       if (allowedOrigins.indexOf(origin) !== -1) {
         return callback(null, true);
       }
+
+      // Automatically allow Vercel production and preview deployments
+      try {
+        const host = new URL(origin).hostname;
+        if (host === 'vercel.app' || host.endsWith('.vercel.app')) {
+          return callback(null, true);
+        }
+      } catch (err) {}
 
       // Do not throw an unhandled Error that causes a 500 crash; pass false for standard CORS block
       return callback(null, false);
