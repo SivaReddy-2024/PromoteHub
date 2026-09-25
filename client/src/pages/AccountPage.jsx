@@ -20,6 +20,7 @@ import {
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import SEO from '../components/common/SEO';
+import UserAvatar from '../components/common/UserAvatar';
 import api from '../services/api';
 
 const AccountPage = () => {
@@ -91,11 +92,7 @@ const AccountPage = () => {
       {/* Header Profile Summary */}
       <div className="bg-gradient-to-r from-brand-900 via-indigo-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 shadow-xl">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
-          <img
-            src={user?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
-            alt={user?.name || 'User'}
-            className="w-20 h-20 rounded-2xl object-cover border-2 border-white/20 shadow-md"
-          />
+          <UserAvatar user={user} size="xl" className="shadow-lg border-2 border-amber-400/40" />
           <div className="space-y-1">
             <div className="flex items-center justify-center sm:justify-start gap-2">
               <h1 className="text-2xl font-black font-display">{user?.name || 'Shopper'}</h1>

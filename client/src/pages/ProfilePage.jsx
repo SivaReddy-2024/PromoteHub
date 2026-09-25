@@ -16,6 +16,7 @@ import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import Alert from '../components/common/Alert';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import UserAvatar from '../components/common/UserAvatar';
 
 const ProfilePage = () => {
   const { user, updateUser } = useAuth();
@@ -153,14 +154,7 @@ const ProfilePage = () => {
         <div className="md:col-span-1 space-y-6">
           <Card className="text-center">
             <div className="relative inline-block mx-auto mb-4">
-              <img
-                src={
-                  profileData.avatar ||
-                  'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'
-                }
-                alt={profileData.name}
-                className="w-24 h-24 rounded-full object-cover ring-4 ring-brand-100 shadow-md mx-auto"
-              />
+              <UserAvatar user={profileData} size="2xl" className="shadow-lg mx-auto" />
             </div>
 
             <h3 className="text-lg font-bold text-slate-900">{profileData.name}</h3>

@@ -32,8 +32,11 @@ logs/
 *.log
 
 # Editor / OS
-.DS_Store
-Thumbs.db
 .vscode/
 .idea/
+*.local
+
+# Temporary local scripts
+inspect.js
+setupThreeUI.js
 

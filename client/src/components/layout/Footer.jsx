@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Megaphone,
   Mail,
   ShieldCheck,
   Send,
   Heart,
   ExternalLink,
-  CheckCircle2
+  CheckCircle2,
+  Sparkles
 } from 'lucide-react';
 import { useToast } from '../../context/ToastContext';
 
@@ -26,12 +26,13 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-slate-900 text-slate-400 text-xs border-t border-slate-800 pb-20 md:pb-12 pt-16">
+    <footer className="bg-[#0A0C11] text-slate-400 text-xs border-t border-white/8 pb-20 md:pb-12 pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Newsletter & Deal Alerts Section */}
-        <div className="bg-gradient-to-r from-brand-900/60 via-indigo-900/40 to-slate-900 rounded-3xl p-6 sm:p-10 border border-slate-800 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-xl">
-          <div className="space-y-2 text-center lg:text-left">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 text-[11px] font-bold border border-brand-500/30">
+        {/* Newsletter & Deal Alerts Section with Amber/Emerald Dark Styling */}
+        <div className="bg-[#121520] rounded-3xl p-6 sm:p-10 border border-white/10 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="space-y-2 text-center lg:text-left relative z-10">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 text-amber-400 text-[11px] font-bold border border-amber-400/25">
               <Mail className="w-3.5 h-3.5" />
               <span>Never Miss a Price Drop</span>
             </span>
@@ -43,18 +44,18 @@ const Footer = () => {
             </p>
           </div>
 
-          <form onSubmit={handleSubscribe} className="flex items-center w-full max-w-md gap-2">
+          <form onSubmit={handleSubscribe} className="flex items-center w-full max-w-md gap-2 relative z-10">
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address..."
-              className="flex-1 px-4 py-3 rounded-2xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+              className="flex-1 px-4 py-3 rounded-2xl bg-[#1A1D27] border border-white/15 text-white placeholder-slate-500 text-xs outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20"
             />
             <button
               type="submit"
-              className="px-5 py-3 rounded-2xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition-colors shrink-0 flex items-center gap-1.5 shadow-lg shadow-brand-600/30"
+              className="px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs transition-colors shrink-0 flex items-center gap-1.5 shadow-lg shadow-amber-500/20 active:scale-95"
             >
               <span>{subscribed ? 'Subscribed!' : 'Subscribe'}</span>
               <Send className="w-3.5 h-3.5" />
@@ -67,29 +68,32 @@ const Footer = () => {
           {/* Brand Info */}
           <div className="col-span-2 space-y-4">
             <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-brand-500/25">
-                <Megaphone className="w-5 h-5 -rotate-12" />
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-md shadow-amber-500/25">
+                <svg viewBox="0 0 32 32" className="w-5 h-5 text-slate-950 fill-current font-black">
+                  <path d="M7 6h8c3.3 0 6 2.7 6 6s-2.7 6-6 6h-4v8H7V6zm4 8h4c1.1 0 2-.9 2-2s-.9-2-2-2h-4v4z" />
+                  <path d="M22 14v12h-3V14h3z" />
+                </svg>
               </div>
-              <span className="text-xl font-bold tracking-tight text-white font-display">
-                Promote<span className="text-brand-500">Hub</span>
+              <span className="text-xl font-black tracking-tight text-white font-display">
+                Promote<span className="text-gradient-amber">Hub</span>
               </span>
             </Link>
 
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
-              PromoteHub is India’s leading promotional discovery and savings platform. We aggregate verified coupons, flash deals, bank card instant discounts, and guaranteed cashback from hundreds of premier merchants.
+              PromoteHub is India’s premier promotional discovery and savings platform. We aggregate verified coupons, flash deals, bank card instant discounts, and guaranteed cashback from hundreds of premier merchants.
             </p>
 
             <div className="flex items-center gap-3 pt-2">
-              <a href="#" className="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 hover:text-white transition-colors">
+              <a href="#" className="w-8 h-8 rounded-xl bg-white/5 hover:bg-amber-400/20 hover:text-amber-400 flex items-center justify-center text-slate-300 transition-colors">
                 <span className="font-bold text-xs">𝕏</span>
               </a>
-              <a href="#" className="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 hover:text-white transition-colors">
+              <a href="#" className="w-8 h-8 rounded-xl bg-white/5 hover:bg-amber-400/20 hover:text-amber-400 flex items-center justify-center text-slate-300 transition-colors">
                 <span className="font-bold text-xs">in</span>
               </a>
-              <a href="#" className="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 hover:text-white transition-colors">
+              <a href="#" className="w-8 h-8 rounded-xl bg-white/5 hover:bg-amber-400/20 hover:text-amber-400 flex items-center justify-center text-slate-300 transition-colors">
                 <span className="font-bold text-xs">yt</span>
               </a>
-              <a href="#" className="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 hover:text-white transition-colors">
+              <a href="#" className="w-8 h-8 rounded-xl bg-white/5 hover:bg-amber-400/20 hover:text-amber-400 flex items-center justify-center text-slate-300 transition-colors">
                 <span className="font-bold text-xs">ig</span>
               </a>
             </div>
@@ -101,10 +105,10 @@ const Footer = () => {
               Company
             </h4>
             <ul className="space-y-2">
-              <li><Link to="/about" className="hover:text-white transition-colors">About Us</Link></li>
-              <li><Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
-              <li><Link to="/careers" className="hover:text-white transition-colors">Careers</Link></li>
-              <li><Link to="/blog" className="hover:text-white transition-colors">Press & News</Link></li>
+              <li><Link to="/about" className="hover:text-amber-400 transition-colors">About Us</Link></li>
+              <li><Link to="/contact" className="hover:text-amber-400 transition-colors">Contact Us</Link></li>
+              <li><Link to="/careers" className="hover:text-amber-400 transition-colors">Careers</Link></li>
+              <li><Link to="/blog" className="hover:text-amber-400 transition-colors">Press & News</Link></li>
             </ul>
           </div>
 
@@ -114,12 +118,12 @@ const Footer = () => {
               Discover
             </h4>
             <ul className="space-y-2">
-              <li><Link to="/deals" className="hover:text-white transition-colors">Today's Deals</Link></li>
-              <li><Link to="/coupons" className="hover:text-white transition-colors">Verified Coupons</Link></li>
-              <li><Link to="/cashback" className="hover:text-white transition-colors">Cashback Offers</Link></li>
-              <li><Link to="/brands" className="hover:text-white transition-colors">Top Stores & Brands</Link></li>
-              <li><Link to="/categories" className="hover:text-white transition-colors">Categories</Link></li>
-              <li><Link to="/festivals" className="hover:text-white transition-colors">Festival Sales</Link></li>
+              <li><Link to="/deals" className="hover:text-amber-400 transition-colors">Today's Deals</Link></li>
+              <li><Link to="/coupons" className="hover:text-amber-400 transition-colors">Verified Coupons</Link></li>
+              <li><Link to="/cashback" className="hover:text-amber-400 transition-colors">Cashback Offers</Link></li>
+              <li><Link to="/brands" className="hover:text-amber-400 transition-colors">Top Stores & Brands</Link></li>
+              <li><Link to="/categories" className="hover:text-amber-400 transition-colors">Categories</Link></li>
+              <li><Link to="/festivals" className="hover:text-amber-400 transition-colors">Festival Sales</Link></li>
             </ul>
           </div>
 
@@ -129,24 +133,24 @@ const Footer = () => {
               Legal & Support
             </h4>
             <ul className="space-y-2">
-              <li><Link to="/faq" className="hover:text-white transition-colors">FAQ & Help Center</Link></li>
-              <li><Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms-conditions" className="hover:text-white transition-colors">Terms of Service</Link></li>
-              <li><Link to="/cookie-policy" className="hover:text-white transition-colors">Cookie Policy</Link></li>
-              <li><Link to="/affiliate-disclosure" className="hover:text-white transition-colors">Affiliate Disclosure</Link></li>
+              <li><Link to="/faq" className="hover:text-amber-400 transition-colors">FAQ & Help Center</Link></li>
+              <li><Link to="/privacy-policy" className="hover:text-amber-400 transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms-conditions" className="hover:text-amber-400 transition-colors">Terms of Service</Link></li>
+              <li><Link to="/cookie-policy" className="hover:text-amber-400 transition-colors">Cookie Policy</Link></li>
+              <li><Link to="/affiliate-disclosure" className="hover:text-amber-400 transition-colors">Affiliate Disclosure</Link></li>
             </ul>
           </div>
         </div>
 
         {/* Affiliate Disclosure Notice */}
-        <div className="border-t border-slate-800/80 pt-8 text-[11px] text-slate-500 leading-relaxed">
+        <div className="border-t border-white/8 pt-8 text-[11px] text-slate-500 leading-relaxed">
           <p>
             <strong className="text-slate-400">Affiliate Disclosure:</strong> PromoteHub is an independent promotional and deals aggregator. When you visit merchant sites and make qualifying purchases through our referral links, coupons, or cashback activation portals, we may earn an affiliate commission at zero additional cost to you. All product trademarks, logos, and brand assets are the property of their respective owners.
           </p>
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-slate-800/80 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+        <div className="border-t border-white/8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
           <div>
             © {new Date().getFullYear()} PromoteHub India Technologies Pvt. Ltd. All rights reserved.
           </div>

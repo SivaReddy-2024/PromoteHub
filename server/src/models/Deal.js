@@ -151,7 +151,6 @@ const dealSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-dealSchema.index({ slug: 1 });
 dealSchema.index({ status: 1, createdAt: -1 });
 dealSchema.index({ category: 1, status: 1 });
 dealSchema.index({ brandSlug: 1 });

@@ -185,7 +185,8 @@ const updateDeal = async (req, res, next) => {
       updateData.savingsAmount = Math.max(0, updateData.originalPrice - updateData.dealPrice);
     }
 
-    const deal = await Deal.findByIdAndUpdate(id, updateData, {
+    const query = id.match(/^[0-9a-fA-F]{24}$/) ? { _id: id } : { slug: id };
+    const deal = await Deal.findOneAndUpdate(query, updateData, {
       new: true,
       runValidators: true
     });
@@ -207,7 +208,8 @@ const updateDeal = async (req, res, next) => {
 const deleteDeal = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deal = await Deal.findByIdAndDelete(id);
+    const query = id.match(/^[0-9a-fA-F]{24}$/) ? { _id: id } : { slug: id };
+    const deal = await Deal.findOneAndDelete(query);
 
     if (!deal) {
       return sendError(res, 404, 'Deal not found');
@@ -226,8 +228,9 @@ const deleteDeal = async (req, res, next) => {
 const trackClick = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deal = await Deal.findByIdAndUpdate(
-      id,
+    const query = id.match(/^[0-9a-fA-F]{24}$/) ? { _id: id } : { slug: id };
+    const deal = await Deal.findOneAndUpdate(
+      query,
       { $inc: { clicks: 1 } },
       { new: true }
     );

@@ -11,20 +11,28 @@ const Button = ({
   onClick,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm active:scale-[0.98]';
+  const baseStyles =
+    'inline-flex items-center justify-center font-bold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0f1117] disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97]';
 
   const variants = {
-    primary: 'bg-brand-600 text-white hover:bg-brand-700 focus:ring-brand-500 shadow-brand-500/20',
-    secondary: 'bg-slate-800 text-white hover:bg-slate-900 focus:ring-slate-700',
-    outline: 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 focus:ring-brand-500',
-    danger: 'bg-rose-600 text-white hover:bg-rose-700 focus:ring-rose-500 shadow-rose-500/20',
-    ghost: 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 shadow-none focus:ring-slate-400'
+    primary:
+      'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-slate-950 font-black hover:from-amber-400 hover:to-amber-500 shadow-lg shadow-amber-500/25 focus:ring-amber-400',
+    secondary:
+      'bg-[#232838] text-slate-100 hover:bg-[#2e3448] border border-white/10 shadow-sm focus:ring-slate-400',
+    outline:
+      'border border-amber-500/40 bg-amber-500/5 text-amber-400 hover:bg-amber-500/15 hover:border-amber-400 focus:ring-amber-500',
+    emerald:
+      'bg-gradient-to-r from-emerald-500 to-emerald-600 text-slate-950 font-black hover:from-emerald-400 hover:to-emerald-500 shadow-lg shadow-emerald-500/25 focus:ring-emerald-400',
+    danger:
+      'bg-rose-600 text-white hover:bg-rose-700 shadow-lg shadow-rose-600/20 focus:ring-rose-500',
+    ghost:
+      'text-slate-300 hover:text-white hover:bg-white/8 shadow-none focus:ring-amber-400/50'
   };
 
   const sizes = {
     sm: 'text-xs px-3 py-1.5 gap-1.5',
-    md: 'text-sm px-4 py-2 gap-2',
-    lg: 'text-base px-5 py-2.5 gap-2.5'
+    md: 'text-sm px-4.5 py-2 gap-2',
+    lg: 'text-base px-6 py-3 gap-2.5'
   };
 
   return (

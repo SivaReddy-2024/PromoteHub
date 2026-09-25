@@ -59,7 +59,6 @@ const brandSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-brandSchema.index({ slug: 1 });
 brandSchema.index({ category: 1 });
 brandSchema.index({ featured: 1 });
 

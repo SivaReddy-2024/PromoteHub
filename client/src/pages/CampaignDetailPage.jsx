@@ -23,6 +23,7 @@ import StatusBadge from '../components/campaigns/StatusBadge';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import Alert from '../components/common/Alert';
 import Modal from '../components/common/Modal';
+import UserAvatar from '../components/common/UserAvatar';
 
 const CampaignDetailPage = () => {
   const { id } = useParams();
@@ -250,14 +251,7 @@ const CampaignDetailPage = () => {
             </h4>
 
             <div className="flex items-center gap-3">
-              <img
-                src={
-                  campaign.user?.avatar ||
-                  'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'
-                }
-                alt={campaign.user?.name || 'Promoter'}
-                className="w-12 h-12 rounded-full object-cover ring-2 ring-slate-100"
-              />
+              <UserAvatar user={campaign.user} size="lg" />
               <div>
                 <h5 className="font-bold text-slate-900 text-sm">
                   {campaign.user?.name || 'Verified Promoter'}
