@@ -40,13 +40,17 @@ async function runTests() {
       return { status: res.status, headers: res.headers, body: data };
     };
 
-    // 3. Test Health Endpoint
-    console.log('2. Testing /api/health ...');
-    const health = await request('/api/health');
-    if (health.status !== 200 || health.body.status !== 'healthy') {
-      throw new Error(`Health check failed: ${JSON.stringify(health.body)}`);
+    // 3. Test Health Endpoints (/health and /api/health)
+    console.log('2. Testing /health and /api/health ...');
+    const rootHealth = await request('/health');
+    if (rootHealth.status !== 200 || rootHealth.body.status !== 'ok') {
+      throw new Error(`/health check failed: ${JSON.stringify(rootHealth.body)}`);
     }
-    console.log('✓ Health check passed.');
+    const health = await request('/api/health');
+    if (health.status !== 200 || (health.body.status !== 'healthy' && health.body.status !== 'ok')) {
+      throw new Error(`/api/health check failed: ${JSON.stringify(health.body)}`);
+    }
+    console.log('✓ Both /health and /api/health checks passed.');
 
     // Cleanup any lingering test user
     const testEmail = `smoketest_${Date.now()}@example.com`;

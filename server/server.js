@@ -9,9 +9,10 @@ const PORT = process.env.PORT || 5000;
 
 // Connect to MongoDB Database
 connectDB().then(() => {
-  const server = app.listen(PORT, () => {
-    logger.info(`PromoteHub Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-    logger.info(`Health check: http://localhost:${PORT}/api/health`);
+  const HOST = '0.0.0.0';
+  const server = app.listen(PORT, HOST, () => {
+    logger.info(`PromoteHub Server running in ${process.env.NODE_ENV || 'development'} mode on ${HOST}:${PORT}`);
+    logger.info(`Health check: http://${HOST}:${PORT}/health (or /api/health)`);
   });
 
   // Handle Unhandled Promise Rejections

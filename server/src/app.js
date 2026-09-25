@@ -28,8 +28,11 @@ app.use(
 // 2. CORS configuration
 const isDev = process.env.NODE_ENV !== 'production';
 
+const cleanOrigin = (url) => (url ? url.replace(/\/+$/, '') : null);
+
 const allowedOrigins = [
-  process.env.CLIENT_URL,
+  cleanOrigin(process.env.FRONTEND_URL),
+  cleanOrigin(process.env.CLIENT_URL),
   'https://promotional-hub.vercel.app',
   'http://localhost:5173',
   'http://localhost:5174',
@@ -46,6 +49,8 @@ app.use(
       // Allow requests with no origin (like mobile apps, curl, server-side, or Postman)
       if (!origin) return callback(null, true);
 
+      const normalizedOrigin = cleanOrigin(origin);
+
       // In local development, dynamically allow any localhost or 127.0.0.1 port
       if (
         isDev &&
@@ -54,7 +59,7 @@ app.use(
         return callback(null, true);
       }
 
-      if (allowedOrigins.indexOf(origin) !== -1) {
+      if (allowedOrigins.includes(normalizedOrigin) || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
 
@@ -112,18 +117,23 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 
-// 6. Rate Limiting for all general API endpoints
-app.use('/api', apiLimiter);
-
-// 7. Health Check Endpoint
-app.get('/api/health', (req, res) => {
+// 6. Health Check Endpoints (placed before rate limiter so Render health probes are never throttled)
+const healthHandler = (req, res) => {
   res.status(200).json({
-    status: 'healthy',
+    status: 'ok',
+    healthy: true,
     platform: 'PromoteHub API',
+    message: 'PromoteHub API is running',
     timestamp: new Date().toISOString(),
     uptime: `${Math.floor(process.uptime())}s`
   });
-});
+};
+
+app.get('/health', healthHandler);
+app.get('/api/health', healthHandler);
+
+// 7. Rate Limiting for general API endpoints
+app.use('/api', apiLimiter);
 
 // 8. API Routes Mount
 app.use('/api/auth', authRoutes);

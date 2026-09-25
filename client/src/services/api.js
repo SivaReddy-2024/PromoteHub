@@ -1,10 +1,17 @@
 import axios from 'axios';
 
+const resolveBaseUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (!envUrl || envUrl === '/api') return '/api';
+  const clean = envUrl.replace(/\/+$/, '');
+  return clean.endsWith('/api') ? clean : `${clean}/api`;
+};
+
 /**
  * Centralized Axios API instance with credentials enabled for HttpOnly cookies
  */
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: resolveBaseUrl(),
   withCredentials: true, // Crucial for sending & receiving HttpOnly cookies across origins
   headers: {
     'Content-Type': 'application/json',
