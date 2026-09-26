@@ -10,18 +10,25 @@ import {
   mockBlogPosts
 } from '../data/mockHubData';
 
+/**
+ * hubService — all methods call the live Render/MongoDB API.
+ *
+ * api.js response interceptor returns `response.data` (the full body),
+ * so `res` shape is: { success, message, data: { deals|coupons|... } }
+ * Access real payload as `res.data` (NOT `res.data.data`).
+ */
 const hubService = {
-  // Deals
+  // ── Deals ──────────────────────────────────────────────────────────────
   async getDeals(params = {}) {
     try {
       const res = await api.get('/deals', { params });
-      if (res.data?.data?.deals) {
-        return res.data.data;
+      if (res.data?.deals) {
+        return res.data; // { deals:[...], pagination:{...} }
       }
     } catch (err) {
       console.warn('API /deals failed, using fallback data:', err.message);
     }
-    // Filter fallback
+    // Fallback: filter local mock data
     let filtered = [...mockDeals];
     if (params.category && params.category !== 'All') {
       filtered = filtered.filter(d => d.category.toLowerCase() === params.category.toLowerCase());
@@ -45,8 +52,8 @@ const hubService = {
   async getDealByIdOrSlug(identifier) {
     try {
       const res = await api.get(`/deals/${identifier}`);
-      if (res.data?.data?.deal) {
-        return res.data.data;
+      if (res.data?.deal) {
+        return res.data; // { deal:{...}, relatedDeals:[...] }
       }
     } catch (err) {
       console.warn(`API /deals/${identifier} failed, checking fallback:`, err.message);
@@ -59,18 +66,18 @@ const hubService = {
   async recordDealClick(id) {
     try {
       const res = await api.post(`/deals/${id}/track-click`);
-      return res.data?.data;
+      return res.data;
     } catch (err) {
       return { clicks: 1 };
     }
   },
 
-  // Coupons
+  // ── Coupons ────────────────────────────────────────────────────────────
   async getCoupons(params = {}) {
     try {
       const res = await api.get('/coupons', { params });
-      if (res.data?.data?.coupons) {
-        return res.data.data;
+      if (res.data?.coupons) {
+        return res.data; // { coupons:[...], pagination:{...} }
       }
     } catch (err) {
       console.warn('API /coupons failed, using fallback data:', err.message);
@@ -95,18 +102,18 @@ const hubService = {
   async recordCouponCopy(id) {
     try {
       const res = await api.post(`/coupons/${id}/copy`);
-      return res.data?.data;
+      return res.data;
     } catch (err) {
       return { copies: 1 };
     }
   },
 
-  // Brands
+  // ── Brands ─────────────────────────────────────────────────────────────
   async getBrands(params = {}) {
     try {
       const res = await api.get('/brands', { params });
-      if (res.data?.data?.brands) {
-        return res.data.data;
+      if (res.data?.brands) {
+        return res.data; // { brands:[...], pagination:{...} }
       }
     } catch (err) {
       console.warn('API /brands failed, using fallback data:', err.message);
@@ -131,8 +138,8 @@ const hubService = {
   async getBrandBySlug(slug) {
     try {
       const res = await api.get(`/brands/${slug}`);
-      if (res.data?.data?.brand) {
-        return res.data.data;
+      if (res.data?.brand) {
+        return res.data; // { brand:{...}, deals:[...], coupons:[...] }
       }
     } catch (err) {
       console.warn(`API /brands/${slug} failed, checking fallback:`, err.message);
@@ -143,12 +150,12 @@ const hubService = {
     return { brand, deals, coupons };
   },
 
-  // Categories
+  // ── Categories ─────────────────────────────────────────────────────────
   async getCategories() {
     try {
       const res = await api.get('/categories');
-      if (res.data?.data?.categories) {
-        return res.data.data.categories;
+      if (res.data?.categories) {
+        return res.data.categories; // array
       }
     } catch (err) {
       console.warn('API /categories failed, using fallback data:', err.message);
@@ -159,8 +166,8 @@ const hubService = {
   async getCategoryBySlug(slug) {
     try {
       const res = await api.get(`/categories/${slug}`);
-      if (res.data?.data?.category) {
-        return res.data.data;
+      if (res.data?.category) {
+        return res.data; // { category:{...}, deals:[...], ... }
       }
     } catch (err) {
       console.warn(`API /categories/${slug} failed, checking fallback:`, err.message);
@@ -172,12 +179,12 @@ const hubService = {
     return { category, deals, coupons, brands };
   },
 
-  // Bank Offers
+  // ── Bank Offers ────────────────────────────────────────────────────────
   async getBankOffers() {
     try {
       const res = await api.get('/bank-offers');
-      if (res.data?.data?.bankOffers) {
-        return res.data.data.bankOffers;
+      if (res.data?.bankOffers) {
+        return res.data.bankOffers; // array
       }
     } catch (err) {
       console.warn('API /bank-offers failed, using fallback data:', err.message);
@@ -185,12 +192,12 @@ const hubService = {
     return mockBankOffers;
   },
 
-  // Cashback Offers
+  // ── Cashback Offers ────────────────────────────────────────────────────
   async getCashbackOffers() {
     try {
       const res = await api.get('/cashback');
-      if (res.data?.data?.cashbackOffers) {
-        return res.data.data.cashbackOffers;
+      if (res.data?.cashbackOffers) {
+        return res.data.cashbackOffers; // array
       }
     } catch (err) {
       console.warn('API /cashback failed, using fallback data:', err.message);
@@ -198,12 +205,12 @@ const hubService = {
     return mockCashbackOffers;
   },
 
-  // Festival Campaigns
+  // ── Festival Campaigns ─────────────────────────────────────────────────
   async getFestivalCampaigns() {
     try {
       const res = await api.get('/festivals');
-      if (res.data?.data?.campaigns) {
-        return res.data.data.campaigns;
+      if (res.data?.campaigns) {
+        return res.data.campaigns; // array
       }
     } catch (err) {
       console.warn('API /festivals failed, using fallback data:', err.message);
@@ -211,12 +218,12 @@ const hubService = {
     return mockFestivalCampaigns;
   },
 
-  // Blog Posts
+  // ── Blog Posts ─────────────────────────────────────────────────────────
   async getBlogPosts() {
     try {
       const res = await api.get('/blog');
-      if (res.data?.data?.posts) {
-        return res.data.data.posts;
+      if (res.data?.posts) {
+        return res.data.posts; // array
       }
     } catch (err) {
       console.warn('API /blog failed, using fallback data:', err.message);
@@ -227,8 +234,8 @@ const hubService = {
   async getBlogPostBySlug(slug) {
     try {
       const res = await api.get(`/blog/${slug}`);
-      if (res.data?.data?.post) {
-        return res.data.data.post;
+      if (res.data?.post) {
+        return res.data.post; // single post object
       }
     } catch (err) {
       console.warn(`API /blog/${slug} failed:`, err.message);
@@ -236,15 +243,15 @@ const hubService = {
     return mockBlogPosts.find(p => p.slug === slug) || mockBlogPosts[0];
   },
 
-  // Global Search Autocomplete
+  // ── Global Search ──────────────────────────────────────────────────────
   async search(query) {
     if (!query || query.trim().length < 2) {
       return { deals: [], coupons: [], brands: [], categories: [], totalResults: 0 };
     }
     try {
       const res = await api.get('/search', { params: { q: query } });
-      if (res.data?.data) {
-        return res.data.data;
+      if (res.data) {
+        return res.data; // { deals, coupons, brands, categories, totalResults }
       }
     } catch (err) {
       console.warn('API /search failed, searching local fallback:', err.message);
@@ -264,12 +271,12 @@ const hubService = {
     };
   },
 
-  // Admin Analytics
+  // ── Admin Analytics ────────────────────────────────────────────────────
   async getAdminAnalytics() {
     try {
       const res = await api.get('/admin/analytics');
-      if (res.data?.data) {
-        return res.data.data;
+      if (res.data) {
+        return res.data;
       }
     } catch (err) {
       console.warn('API /admin/analytics failed, using fallback metrics:', err.message);
