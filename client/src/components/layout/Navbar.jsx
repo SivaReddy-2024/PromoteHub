@@ -198,8 +198,8 @@ const Navbar = () => {
         <Sparkles className="w-3.5 h-3.5 fill-slate-950" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20 gap-3">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center h-16 sm:h-20 gap-4">
           {/* Logo with Stylized PH Monogram */}
           <Link to="/" className="flex items-center gap-3 group shrink-0">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/25 group-hover:scale-105 transition-all duration-300 relative overflow-hidden">
@@ -222,8 +222,89 @@ const Navbar = () => {
             </div>
           </Link>
 
-          {/* Desktop Global Search Bar */}
-          <div ref={searchRef} className="hidden lg:block flex-1 max-w-sm xl:max-w-md relative">
+          {/* Desktop Nav Links — left-aligned, immediately after logo */}
+          <nav className="hidden lg:flex items-center gap-0.5 text-xs font-semibold text-slate-300">
+            {navLinks.map((link) => {
+              const active = isActive(link.to);
+              const Icon = link.icon;
+
+              return (
+                <div
+                  key={link.to}
+                  className="relative"
+                  onMouseEnter={() => {
+                    setHoveredNav(link.to);
+                    if (link.hasMega) handleMegaEnter(link.megaType);
+                    else handleMegaLeave();
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredNav(null);
+                    if (link.hasMega) handleMegaLeave();
+                  }}
+                >
+                  <Link
+                    to={link.to}
+                    className={`px-2.5 py-2 rounded-xl transition-all duration-200 flex items-center gap-1.5 relative group ${
+                      active
+                        ? 'text-amber-400 font-bold bg-amber-400/8'
+                        : 'hover:text-white hover:bg-white/6'
+                    }`}
+                  >
+                    {/* Icon bubble */}
+                    <div
+                      className={`p-1 rounded-lg transition-transform duration-200 group-hover:scale-110 ${
+                        active ? link.bgColor : 'bg-white/5 group-hover:' + link.bgColor
+                      }`}
+                    >
+                      <Icon className={`w-3.5 h-3.5 ${active ? link.color : 'text-slate-300 group-hover:' + link.color}`} />
+                    </div>
+
+                    <span className="whitespace-nowrap">{link.label}</span>
+
+                    {link.badge && (
+                      <span
+                        className={`px-1 py-0.5 text-[8px] font-black rounded-full ${
+                          link.badge === 'HOT'
+                            ? 'bg-rose-500 text-white'
+                            : 'bg-emerald-400 text-slate-950'
+                        }`}
+                      >
+                        {link.badge}
+                      </span>
+                    )}
+
+                    {/* Active sliding underline pill */}
+                    {active && (
+                      <motion.div
+                        layoutId="activeNavIndicator"
+                        className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                  </Link>
+
+                  {/* Hover Tooltip */}
+                  <AnimatePresence>
+                    {hoveredNav === link.to && !link.hasMega && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 4, scale: 0.96 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1.5 rounded-lg bg-[#222736] border border-white/10 text-[11px] text-slate-200 whitespace-nowrap shadow-xl pointer-events-none z-50 flex items-center gap-1"
+                      >
+                        <Sparkles className="w-3 h-3 text-amber-400" />
+                        <span>{link.tooltip}</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </nav>
+
+          {/* Desktop Search — pushed right with ml-auto */}
+          <div ref={searchRef} className="hidden lg:block ml-auto w-60 xl:w-72 relative">
             <form onSubmit={handleSearchSubmit} className="relative">
               <input
                 type="text"
@@ -336,86 +417,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Desktop Nav Links with Icons & Slide Indicator */}
-          <nav className="hidden lg:flex items-center gap-1 text-xs font-semibold text-slate-300 relative">
-            {navLinks.map((link) => {
-              const active = isActive(link.to);
-              const Icon = link.icon;
-
-              return (
-                <div
-                  key={link.to}
-                  className="relative"
-                  onMouseEnter={() => {
-                    setHoveredNav(link.to);
-                    if (link.hasMega) handleMegaEnter(link.megaType);
-                    else handleMegaLeave();
-                  }}
-                  onMouseLeave={() => {
-                    setHoveredNav(null);
-                    if (link.hasMega) handleMegaLeave();
-                  }}
-                >
-                  <Link
-                    to={link.to}
-                    className={`px-2.5 py-2 rounded-xl transition-all duration-200 flex items-center gap-1.5 relative group ${
-                      active
-                        ? 'text-amber-400 font-bold'
-                        : 'hover:text-white hover:bg-white/5'
-                    }`}
-                  >
-                    {/* Icon with hover bubble */}
-                    <div
-                      className={`p-1 rounded-lg transition-transform duration-200 group-hover:scale-110 ${
-                        active ? link.bgColor : 'bg-white/5 group-hover:' + link.bgColor
-                      }`}
-                    >
-                      <Icon className={`w-3.5 h-3.5 ${active ? link.color : 'text-slate-300 group-hover:' + link.color}`} />
-                    </div>
-
-                    <span>{link.label}</span>
-
-                    {link.badge && (
-                      <span
-                        className={`px-1 py-0.2 text-[8px] font-black rounded-full text-slate-950 ${
-                          link.badge === 'HOT'
-                            ? 'bg-rose-500 text-white'
-                            : 'bg-emerald-400'
-                        }`}
-                      >
-                        {link.badge}
-                      </span>
-                    )}
-
-                    {/* Active sliding underline pill */}
-                    {active && (
-                      <motion.div
-                        layoutId="activeNavIndicator"
-                        className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full"
-                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                      />
-                    )}
-                  </Link>
-
-                  {/* Hover Tooltip Popup */}
-                  <AnimatePresence>
-                    {hoveredNav === link.to && !link.hasMega && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 4, scale: 0.96 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1.5 rounded-lg bg-[#222736] border border-white/10 text-[11px] text-slate-200 whitespace-nowrap shadow-xl pointer-events-none z-50 flex items-center gap-1"
-                      >
-                        <Sparkles className="w-3 h-3 text-amber-400" />
-                        <span>{link.tooltip}</span>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
-          </nav>
+          {/* Nav removed from here — moved left next to logo above */}
 
           {/* Right Action Icons & User */}
           <div className="flex items-center gap-2">
