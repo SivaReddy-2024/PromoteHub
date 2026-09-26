@@ -3,6 +3,9 @@
   "outputDirectory": "client/dist",
   "installCommand": "npm install --prefix client",
   "framework": "vite",
+  "env": {
+    "VITE_API_URL": "https://promotehub-backend.onrender.com"
+  },
   "rewrites": [
     {
       "source": "/(.*)",
@@ -10,3 +13,4 @@
     }
   ]
 }
+

@@ -10,13 +10,18 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      # ──────────────────────────────────────────────────────────────────────
+      # MongoDB Atlas – set this manually in the Render dashboard or via CLI:
+      #   render env set MONGODB_URI "mongodb+srv://chintukavuri18_db_user:<PASSWORD>@cluster0.i6ljxqd.mongodb.net/promotehub?retryWrites=true&w=majority"
+      # ──────────────────────────────────────────────────────────────────────
+      - key: MONGODB_URI
+        sync: false          # Keep secret – set via Render dashboard / CLI
+      - key: JWT_SECRET
+        generateValue: true  # Render generates a cryptographically-random value
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      # ── CORS: allow your Vercel frontend ────────────────────────────────
       - key: FRONTEND_URL
         value: https://promotional-hub.vercel.app
       - key: CLIENT_URL
         value: https://promotional-hub.vercel.app
-      - key: MONGODB_URI
-        sync: false
-      - key: JWT_SECRET
-        generateValue: true
-      - key: JWT_EXPIRES_IN
-        value: 7d

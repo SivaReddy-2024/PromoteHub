@@ -1,5 +1,11 @@
 {
   "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "env": {
+    "VITE_API_URL": "https://promotehub-backend.onrender.com"
+  },
   "rewrites": [
     {
       "source": "/(.*)",
@@ -7,3 +13,4 @@
     }
   ]
 }
+
